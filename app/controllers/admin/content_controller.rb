@@ -36,6 +36,16 @@ class Admin::ContentController < Admin::BaseController
     end
     new_or_edit
   end
+  
+  def merge
+    @article = Article.find(params[:id])
+    begin
+      @article.merge!(params[:merge_with])
+    rescue ActiveRecord::RecordNotFound, ArgumentError => e
+      flash[:error] = _(e.message)
+    end
+    redirect_to(:action => 'edit', :id => params[:id]) and return
+  end
 
   def destroy
     @record = Article.find(params[:id])
@@ -240,4 +250,5 @@ class Admin::ContentController < Admin::BaseController
   def setup_resources
     @resources = Resource.by_created_at
   end
+  
 end

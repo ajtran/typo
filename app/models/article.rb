@@ -121,6 +121,19 @@ class Article < Content
     end
 
   end
+  
+  def merge!(other_id)
+    other = Article.find(other_id)
+    self.body = self.body + ' ' + other.body
+    comments = Comment.where(:article_id => other_id)
+    comments.each do |comment|
+      comment.article_id = self.id
+      comment.article = self
+      comment.save
+    end
+    other.destroy
+    self.save
+  end
 
   def year_url
     published_at.year.to_s
