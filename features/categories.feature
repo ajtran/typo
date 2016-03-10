@@ -10,7 +10,7 @@ Feature: fix categories bug
   Scenario: go to new category page
     Given I am on the dashboard page
     When I follow "Categories"
-    Then I should be on "the admin new categories page"
+    Then I should be on the admin new categories page
     
   Scenario: Successfully add new category
     Given I am on the admin new categories page
